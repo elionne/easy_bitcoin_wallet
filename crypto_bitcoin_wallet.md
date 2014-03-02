@@ -9,7 +9,8 @@ password. This explation is for people who are expert in cryptography, but it's
 a standard procedure to encrypt something. It's more personnal note than a
 complete explanation.
 
-The bitcoin wallet it based on AES-256-CBC cipher algorithm and SHA-512 digest.
+The bitcoin wallet it based on AES-256-CBC cipher algorithm and SHA-512
+digest<sup>[1][wallet_encryption], [2][wallet_encryption2]</sup>.
 
 ## Kowns about AES-256 key and iv
 
