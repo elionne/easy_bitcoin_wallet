@@ -65,6 +65,20 @@ end
 
 ### Master key encryption
 
+For various cryptographics reasons, The result of previous EVP_BytesToKey is
+not used directly to encrypt your private bitcoin keys. Your entire wallet
+is encrypted with a very random and very big master key. The hashed passphrase
+encrypt the master private key. The avantages of this solution are when you
+choose to change your passphrase the software to re-encrypt all your wallet. It
+just re-encrypt the master key.
+
+Each private bitcoin keys are encrypted separatly. The master key is the same
+for each, but the initialization vector is determined by the first bytes of a
+double SHA-256 of your __public bicoin key__ (not the bitcoin address).
+
+[wallet_encryption]: https://bitcointalk.org/index.php?topic=8728.0
+[wallet_encryption2]: https://en.bitcoin.it/wiki/Wallet_encryption
+
 [initialization_vector]: http://en.wikipedia.org/wiki/Initialization_vector
 [evp_bytestokey]: http://www.openssl.org/docs/crypto/EVP_BytesToKey.html
 [ssleay]: https://github.com/openssl/openssl/blob/master/doc/ssleay.txt#L2332
