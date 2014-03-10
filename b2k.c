@@ -510,13 +510,13 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    if(  global_options.decrypt || global_options.encrypt ||
+    if( (global_options.decrypt || global_options.encrypt) &&
         (global_options.key_set == 0 && global_options.iv_set == 0)){
         /* Get passphrase from stdin */
         strncpy(password, getpass("Enter your passphrase: "), sizeof(password));
     }
 
-    if( global_options.master_key_set == 0 ||
+    if( (global_options.master_key_set == 0 && global_options.crypted_master_key == 0) ||
         (global_options.key_set == 0 && global_options.iv_set == 0 )){
         /* key and iv from password */
         derive_password(password, salt, derivation_count, key, iv);
