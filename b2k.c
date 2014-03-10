@@ -245,7 +245,7 @@ int string_to_int_with_check(char* number)
 void usage()
 {
     printf(" usage %s [options]\n\n", "./b2k");
-    printf("All input are un hexdecimal text without 0x prefix. All internal \n\
+    printf("All input are in hexdecimal text without 0x prefix. All internal \n\
 size are static, so be carful about each options size.\n");
     
     printf("    -k \n\
