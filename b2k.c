@@ -263,7 +263,7 @@ size are static, so be carful about each options size.\n");
             Decrypt data.\n\n");
 
     printf("    -z \n\
-            Print a compressed format of public key. Use with -p.\n\n");
+            Print a compressed format of public key.\n\n");
 
     printf("    -M <master_key> \n");
     printf("    -N <crypted_master_key> \n\
@@ -453,13 +453,6 @@ void parse_options(int argc, char* argv[])
             printf("You must set a public key with the option -d and -Q.\n");
             exit(-1);
         }
-    }
-
-    if( global_options.compressed_format == 1 &&
-        global_options.public_from_private_only == 0 )
-    {
-        printf("-z option must be used with -p option.\n");
-        exit(-1);
     }
 }
 
