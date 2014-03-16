@@ -245,7 +245,7 @@ int string_to_int_with_check(char* number)
 void usage()
 {
     printf(" usage %s [options]\n\n", "./b2k");
-    printf("All input are in hexdecimal text without 0x prefix. All internal \n\
+    printf("All input are un hexdecimal text without 0x prefix. All internal \n\
 size are static, so be carful about each options size.\n");
     
     printf("    -k \n\
@@ -280,7 +280,7 @@ size are static, so be carful about each options size.\n");
             -I option. (16 bytes) \n\n");
 
     printf("    -P <private_key> \n");
-    printf("    -Q <crypted_private_key \n\
+    printf("    -Q <crypted_private_key> \n\
             Sets the decrypted and crypted bitcoin private key. You crypt and\n\
             decrypt with -e and -d options. private_key 32 bytes, \n\
             crypted_private_key 48 bytes\n\n");

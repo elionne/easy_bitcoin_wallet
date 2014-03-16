@@ -2,10 +2,11 @@
 
 Easy bitcoin wallet attempt to be a tool to easy make operations on cryptogric
 around the bitcoin wallet. It cannot read entry directly from your wallet
-database, it can only encrypt, decrypt hash your passphrase.
+database, it can only encrypt, decrypt hash your passphrase. I think all
+operations may be done with openssl.
 
 The keys to use with Easy bitcoin wallet can be found with the Python program
-jackjack-jj/pywallet
+jackjack-jj/pywallet.
 
 # Compilation
 
