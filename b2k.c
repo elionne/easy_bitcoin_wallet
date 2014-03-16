@@ -483,6 +483,9 @@ int main(int argc, char *argv[])
     if( global_options.private_key_set )
         memcpy(private_key, global_options.private_key, 32);
 
+    if( global_options.crypted_private_key_set )
+        memcpy(crypted_private_key, global_options.crypted_private_key, sizeof(crypted_private_key));
+
     if( global_options.crypted_master_key_set )
         memcpy(crypted_master_key, global_options.crypted_master_key, sizeof(crypted_master_key));
     
