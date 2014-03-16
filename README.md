@@ -8,13 +8,13 @@ operations may be done with openssl.
 The keys to use with Easy bitcoin wallet can be found with the Python program
 jackjack-jj/pywallet.
 
-# Compilation
+## Compilation
 
 ~~~
 gcc b2k.c -g -o b2k -lcrypto -Wall
 ~~~
 
-# Usage
+## Usage
 
 Every data are noted in hexadecimal.
 
@@ -31,7 +31,7 @@ To get the public from private keys.
 ~~~
 ./b2k -p -P 0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D
 
-# Or compressed format
+## Or compressed format
 
 ./b2k -p -z -P 0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D
 ~~~
