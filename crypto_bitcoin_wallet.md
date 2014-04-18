@@ -42,7 +42,7 @@ But the particularity point of bitcoin wallet result in use of
 
 This function do a hash your passphrase with a selected digest, but instead of
 hashing just one time, it's hash _n_ times with _n_ equal to a big number. _N_
-it depend of your CPU power (_n_ is about 100 000 on my actual compturer).
+it depend of your CPU power (_n_ is about 100 000 on my actual computer).
 
 This method it used to protect from brut force attack, because for each
 password you check, you have to calculate _n_ hashes.
