@@ -3,6 +3,7 @@ library IEEE;
 use ieee.std_logic_1164.all;
 
 entity recursive_stack is
+    generic ( size: natural := 4);
     port (
       length_in  : in natural;
       length_out : out natural;
@@ -17,8 +18,8 @@ end recursive_stack;
 
 architecture arch_recursive_stack of recursive_stack is
     --type stack_type is array (0 to 4) of std_logic_vector (14 downto 0);
-    type length_stack_type is array (0 to 4) of natural;
-    type index_stack_type is array (0 to 4) of natural;
+    type length_stack_type is array (0 to size) of natural;
+    type index_stack_type is array (0 to size) of natural;
     signal length_stack : length_stack_type := (others => 0);
     signal index_stack  : index_stack_type := (others => 0);
     signal first : std_logic := '0';
@@ -28,7 +29,7 @@ begin
   begin
     if falling_edge(clk) and enable = '1' then
         if push_pop = '1' then
-            if addr < 4 then
+            if addr < size then
                 if first = '0' then
                     first <= '1';
                 else
