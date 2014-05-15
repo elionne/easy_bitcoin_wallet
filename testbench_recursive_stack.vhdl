@@ -1,18 +1,18 @@
 
-LIBRARY  IEEE;
-USE IEEE.std_logic_1164.all;
+library  IEEE;
+use IEEE.std_logic_1164.all;
 
-ENTITY testbench IS
-END testbench;
+entity testbench is
+end testbench;
 
-architecture testbench_recusive_stack of testbench is
+architecture testbench_recursive_stack of testbench is
 
     signal clk    : std_logic;
     signal enable : std_logic;
     signal push_pop : std_logic;
     signal length_in, length_out : natural;
     signal index_in, index_out : natural;
-    
+
     component recursive_stack
     port (
       length_in  : in natural;
@@ -27,14 +27,15 @@ architecture testbench_recusive_stack of testbench is
     end component;
 
 begin
-    stack : recursive_stack port map ( 
-      enable     => enable,
-      push_pop   => push_pop,
+    stack : recursive_stack port map (
       length_in  => length_in,
       length_out => length_out,
       index_in   => index_in,
       index_out  => index_out,
-      clk        => clk    
+
+      enable     => enable,
+      push_pop   => push_pop,
+      clk        => clk
     );
 
     process
@@ -53,6 +54,8 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 100;
+
         clk <= transport '1';
         index_in <= transport 101;
         length_in <= transport 201;
@@ -61,6 +64,8 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 101;
+
         clk <= transport '1';
         index_in <= transport 102;
         length_in <= transport 202;
@@ -69,28 +74,34 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 102;
+
         clk <= transport '1';
+        enable <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-         index_in <= transport 152;
+        index_in <= transport 152;
         length_in <= transport 252;
        -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        index_in <= transport 153;
+        length_in <= transport 253;
         clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 102;
+
         clk <= transport '1';
-        enable <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -103,6 +114,8 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 153;
+
         clk <= transport '1';
         index_in <= transport 103;
         length_in <= transport 203;
@@ -111,6 +124,8 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_in = 103;
+
         clk <= transport '1';
         push_pop <= transport '0';
         -- --------------------
@@ -118,6 +133,8 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert index_out = 153;
+
         clk <= transport '1';
         index_in <= transport 104;
         length_in <= transport 204;
@@ -176,12 +193,6 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
         index_in <= transport 108;
         length_in <= transport 208;
         -- --------------------
@@ -216,90 +227,6 @@ begin
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
         WAIT;
     END PROCESS;
-END testbench_recusive_stack;
+END testbench_recursive_stack;
