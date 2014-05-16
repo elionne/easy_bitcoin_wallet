@@ -14,11 +14,10 @@ architecture testbench_arch_recursive_stack of testbench_recursive_stack is
     signal index_in, index_out : natural;
 
     component recursive_stack
+    generic ( size: natural);
     port (
-      length_in  : in natural;
-      length_out : out natural;
-      index_in   : in natural;
-      index_out  : out natural;
+      data_in   : in natural;
+      data_out  : out natural;
 
       enable  : in std_logic;
       push_pop: in std_logic;
@@ -27,11 +26,9 @@ architecture testbench_arch_recursive_stack of testbench_recursive_stack is
     end component;
 
 begin
-    stack : recursive_stack port map (
-      length_in  => length_in,
-      length_out => length_out,
-      index_in   => index_in,
-      index_out  => index_out,
+    stack : recursive_stack generic map(size => 5) port map (
+      data_in   => index_in,
+      data_out  => index_out,
 
       enable     => enable,
       push_pop   => push_pop,

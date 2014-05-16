@@ -5,10 +5,8 @@ use ieee.std_logic_1164.all;
 entity recursive_stack is
     generic ( size: natural := 4);
     port (
-      length_in  : in natural;
-      length_out : out natural;
-      index_in   : in natural;
-      index_out  : out natural;
+      data_in   : in natural;
+      data_out  : out natural;
 
       enable  : in std_logic;
       push_pop: in std_logic;
@@ -17,12 +15,9 @@ entity recursive_stack is
 end recursive_stack;
 
 architecture arch_recursive_stack of recursive_stack is
-    --type stack_type is array (0 to 4) of std_logic_vector (14 downto 0);
-    type length_stack_type is array (0 to size) of natural;
-    type index_stack_type is array (0 to size) of natural;
-    signal length_stack : length_stack_type := (others => 0);
-    signal index_stack  : index_stack_type := (others => 0);
-    signal first : std_logic := '0';
+    type data_stack_type is array (0 to size) of natural;
+    signal data  : data_stack_type := (others => 0);
+    signal zero_addr : std_logic := '0';
 begin
   process(clk)
     variable addr : natural := 0;
