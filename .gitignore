@@ -4,3 +4,7 @@ b2k
 mdwiki-debug.html
 enum_pwgen2
 enum_pwgen
+*.o
+*.pdf
+testbench
+testbench.gtkw
