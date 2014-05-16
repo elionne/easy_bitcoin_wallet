@@ -2,40 +2,36 @@
 library  IEEE;
 use IEEE.std_logic_1164.all;
 
-entity testbench_recursive_stack is
-end testbench_recursive_stack;
+entity testbench_pw_string is
+end testbench_pw_string;
 
-architecture testbench_arch_recursive_stack of testbench_recursive_stack is
+architecture testbench_arch_pw_string of testbench_pw_string is
 
     signal clk    : std_logic;
     signal enable : std_logic;
     signal push_pop : std_logic;
-    signal length_in, length_out : natural;
-    signal index_in, index_out : natural;
+    signal char   : character;
+    signal pwd    : string (1 to 5);
 
-    component recursive_stack
+    component pw_string
     port (
-      length_in  : in natural;
-      length_out : out natural;
-      index_in   : in natural;
-      index_out  : out natural;
+      char : in character;
+      pwd  : out string;
 
-      enable  : in std_logic;
-      push_pop: in std_logic;
-      clk     : in std_logic
+      enable: in std_logic;
+      push_pop : in std_logic;
+      clk  : in std_logic
     );
     end component;
 
 begin
-    stack : recursive_stack port map (
-      length_in  => length_in,
-      length_out => length_out,
-      index_in   => index_in,
-      index_out  => index_out,
+    final_string : pw_string port map (
+      char => char,
+      pwd  => pwd,
 
-      enable     => enable,
-      push_pop   => push_pop,
-      clk        => clk
+      enable => enable,
+      push_pop => push_pop,
+      clk => clk
     );
 
     process
@@ -47,36 +43,28 @@ begin
         -- --------------------
         WAIT FOR 110 ns;
         clk <= transport '1';
-        index_in <= transport 100;
-        length_in <= transport 200;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 100;
-
         clk <= transport '1';
-        index_in <= transport 101;
-        length_in <= transport 201;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'a';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 101;
-
         clk <= transport '1';
-        index_in <= transport 102;
-        length_in <= transport 202;
+        assert(pwd(2) = 'a');
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'b';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 102;
-
         clk <= transport '1';
+        assert(pwd(3) = 'b');
         enable <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
@@ -84,23 +72,21 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 152;
-        length_in <= transport 252;
        -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'c';
         -- --------------------
         WAIT FOR 10 ns;
-        index_in <= transport 153;
-        length_in <= transport 253;
         clk <= transport '1';
+        assert(pwd(3) = 'b');
+        assert(pwd(4) = nul);
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'd';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 102;
-
         clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
@@ -114,36 +100,59 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 153;
-
         clk <= transport '1';
-        index_in <= transport 103;
-        length_in <= transport 203;
+        assert(pwd(4) = 'd');
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'e';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_in = 103;
-
         clk <= transport '1';
+        assert(pwd(5) = 'e');
         push_pop <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        char <= transport 'f';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 153;
-
         clk <= transport '1';
-        index_in <= transport 104;
-        length_in <= transport 204;
+        assert(pwd(5) = nul);
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        char <= transport 'g';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
+        char <= transport 'h';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        char <= transport 'i';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
+        assert(pwd(1) = nul);
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -151,36 +160,29 @@ begin
         WAIT FOR 10 ns;
         clk <= transport '1';
         push_pop <= transport '1';
+        char <= transport 'j';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 105;
-        length_in <= transport 205;
+        assert(pwd(1) = 'j');
+        char <= transport 'k';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 106;
-        length_in <= transport 206;
+        char <= transport 'l';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        index_in <= transport 107;
-        length_in <= transport 207;
+        char <= transport 'm';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -193,40 +195,16 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 108;
-        length_in <= transport 208;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        index_in <= transport 109;
-        length_in <= transport 209;
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        index_in <= transport 110;
-        length_in <= transport 210;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT;
-    END PROCESS;
-end testbench_arch_recursive_stack;
+    end process;
+end testbench_arch_pw_string;
