@@ -25,22 +25,22 @@ begin
     if falling_edge(clk) and enable = '1' then
         if push_pop = '1' then
             if addr < size then
-                if first = '0' then
-                    first <= '1';
+                if zero_addr = '0' then
+                    zero_addr <= '1';
                 else
                     addr := addr + 1;
                 end if;
-                length_stack(addr) <= length_in;
-                index_stack(addr) <= index_in;
-                length_out <= length_in;
-                index_out <= index_in;
+                data(addr) <= data_in;
+                data_out <= data_in;
             end if;
         else
             if addr > 0 then
                 addr := addr - 1;
-                length_out <= length_stack(addr);
-                index_out <= index_stack(addr);
+            else -- if addr = 0
+                zero_addr <= '0';
             end if;
+
+            data_out <= data(addr);
         end if;
     end if;
   end process;
