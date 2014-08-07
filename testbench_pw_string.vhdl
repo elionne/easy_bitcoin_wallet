@@ -40,6 +40,7 @@ begin
         clk <= transport '0';
         push_pop <=  transport '1';
         enable <= transport '1';
+        char <= transport 'a';
         -- --------------------
         WAIT FOR 110 ns;
         clk <= transport '1';
@@ -48,15 +49,15 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
+        assert pwd(1) = 'a';
         clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
-        char <= transport 'a';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(2) = 'a');
+        assert pwd(2) = 'a';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -64,7 +65,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(3) = 'b');
+        assert pwd(3) = 'b';
         enable <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
@@ -79,8 +80,8 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(3) = 'b');
-        assert(pwd(4) = nul);
+        assert pwd(3) = 'b';
+        assert pwd(4) = nul;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -101,7 +102,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(4) = 'd');
+        assert pwd(4) = 'd' ;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -109,7 +110,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(5) = 'e');
+        assert pwd(5) = 'e' ;
         push_pop <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
@@ -118,7 +119,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(5) = nul);
+        assert pwd(5) = nul ;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -152,7 +153,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(1) = nul);
+        assert pwd(1) = nul ;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -167,7 +168,7 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        assert(pwd(1) = 'j');
+        assert pwd(1) = 'j' ;
         char <= transport 'k';
         -- --------------------
         WAIT FOR 10 ns;

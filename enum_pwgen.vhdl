@@ -31,7 +31,7 @@ architecture arch_pw_process of pw_process is
       clk     : in std_logic
     );
   end component;
-  
+
   component vowels
     port (
       length_in    : in natural;
@@ -45,7 +45,7 @@ architecture arch_pw_process of pw_process is
       valid        : out std_logic := '0'
     );
   end component;
-  
+
   type DenyFlags is (F_CONSONANT, F_VOWEL, F_DIPTHONG, F_NOT_FIRST, F_DIGIT, F_FIRST, F_UPPERS);
   --
   signal valid   : std_logic;
@@ -84,7 +84,7 @@ begin
       data => char,
       valid => valid
     );
-    
+
     process(clk)
     begin
       if rising_edge(clk) then
@@ -100,53 +100,5 @@ begin
           end if;
       end if;
     end process;
-    
+
 end arch_pw_process;
-
-library IEEE;
-use ieee.std_logic_1164.all;
-
-entity vowels is
-    port (
-      length_in    : in natural;
-      length_out   : out natural;
-      enable       : in std_logic;
-      reset        : in std_logic;
-      load_index   : in natural;
-      current_index: out natural;
-      clk          : in std_logic;
-      data         : out character := 'a';
-      valid        : out std_logic := '1'
-    );
-end vowels;
-
-architecture arch_vowels of vowels is
-  type vowel_list is array (0 to 4) of character;
-  subtype vowel_index is integer range 0 to 4;
-  signal vowel : vowel_list := ('a','e', 'i', 'o', 'u');
-begin
-  process(clk)
-    variable index : vowel_index := 0;
-  begin
-    if rising_edge(clk) then
-        if reset = '1' then
-            index := load_index;
-        end if;
-        
-        length_out <= length_in + 1;
-        if enable = '1' and reset = '0' then
-            if index < vowel_index'high then
-                index := index + 1;
-                valid <= '1';
-
-                data <= vowel(index);
-            else
-                index := 0;
-                valid <= '0';
-            end if;
-        end if;
-
-        current_index <= index;
-    end if;
-  end process;
-end arch_vowels;

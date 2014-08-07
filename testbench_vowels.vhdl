@@ -1,74 +1,74 @@
 
+
 library  IEEE;
 use IEEE.std_logic_1164.all;
 
-entity testbench_recursive_stack is
-end testbench_recursive_stack;
+entity testbench_vowels is
+end testbench_vowels;
 
-architecture testbench_arch_recursive_stack of testbench_recursive_stack is
+architecture testbench_arch_vowels of testbench_vowels is
 
     signal clk    : std_logic;
     signal enable : std_logic;
-    signal push_pop : std_logic;
-    signal index_in, index_out : natural;
+    signal length_in, length_out : natural;
+    signal reset  : std_logic;
+    signal load_index : natural;
+    signal char   : character;
+    signal finished   : std_logic;
 
-    component recursive_stack
-    generic ( size: natural);
+    component vowels
     port (
-      data_in   : in natural;
-      data_out  : out natural;
-
-      enable  : in std_logic;
-      push_pop: in std_logic;
-      clk     : in std_logic
+      length_in    : in natural;
+      length_out   : out natural;
+      enable       : in std_logic;
+      reset        : in std_logic;
+      load_index   : in natural;
+      current_index: out natural;
+      clk          : in std_logic;
+      char         : out character := 'a';
+      finished     : out std_logic := '1'
     );
     end component;
 
 begin
-    stack : recursive_stack generic map(size => 5) port map (
-      data_in   => index_in,
-      data_out  => index_out,
-
-      enable     => enable,
-      push_pop   => push_pop,
-      clk        => clk
+    list_vowels : vowels port map (
+      length_in => length_in,
+      length_out => length_out,
+      enable => enable,
+      reset => reset,
+      load_index => load_index,
+      clk => clk,
+      char => char,
+      finished => finished
     );
 
+    length_in <= length_out;
     process
         begin
         -- --------------------
         clk <= transport '0';
-        push_pop <=  transport '1';
         enable <= transport '1';
+        reset <= transport '0';
         -- --------------------
         WAIT FOR 110 ns;
         clk <= transport '1';
-        index_in <= transport 100;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 100;
-
         clk <= transport '1';
-        index_in <= transport 101;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 101;
-
         clk <= transport '1';
-        index_in <= transport 102;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 102;
-
         clk <= transport '1';
         enable <= transport '0';
         -- --------------------
@@ -77,21 +77,17 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 152;
        -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        index_in <= transport 153;
         clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 102;
-
         clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
@@ -105,28 +101,22 @@ begin
         clk <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 153;
-
         clk <= transport '1';
-        index_in <= transport 103;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        assert char = 'u';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_in = 103;
-
         clk <= transport '1';
-        push_pop <= transport '0';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        assert char = 'u';
+        assert finished = '1';
         -- --------------------
         WAIT FOR 10 ns;
-        assert index_out = 153;
-
         clk <= transport '1';
-        index_in <= transport 104;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -136,24 +126,19 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        reset <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        push_pop <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
+        reset <= transport '0';
+        assert finished = '0';
+        assert char = 'a';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 105;
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        index_in <= transport 106;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -166,7 +151,29 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 107;
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        reset <= transport '1';
+        load_index <= 4;
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        reset <= transport '0';
+        assert finished = '0';
+        assert char = 'u';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '0';
+        -- --------------------
+        WAIT FOR 10 ns;
+        clk <= transport '1';
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -179,7 +186,6 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 108;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
@@ -192,24 +198,10 @@ begin
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '1';
-        index_in <= transport 109;
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '0';
-        -- --------------------
-        WAIT FOR 10 ns;
-        clk <= transport '1';
-        index_in <= transport 110;
         -- --------------------
         WAIT FOR 10 ns;
         clk <= transport '0';
         -- --------------------
         WAIT;
     END PROCESS;
-end testbench_arch_recursive_stack;
+end testbench_arch_vowels;
