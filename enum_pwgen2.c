@@ -302,19 +302,24 @@ inline void process_at_first_consonants_dipthong_upper(int pw_length,
 
 void pw_process(int pw_length, int deny_flags, int prev, int first, int feature_flags)
 {
-
     /* Time to print */
     if( pw_length == global_size ){
         /* At least one upper and one digit */
         if( (feature_flags & (PW_DIGITS | PW_UPPERS)) == 0 ){
             if( global_print ){
                 int i;
-                printf("%lld ",global_count);
-                for(i = 0; i < global_size; ++i)
-                    printf("%s", global_buffer[i]);
-                printf("\n");
-                global_print = 0;
+                char password[11] = "";
+
+                if( global_print_all == 0 ){
+                  global_print = 0;
+                  printf("%lld ",global_count);
+                }
+
+                for(i = 0; i <= global_index; ++i)
+                    strcat(password, global_buffer[i]);
+                puts(password);
             }
+
             global_count++;
             return;
         }
