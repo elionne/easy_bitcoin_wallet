@@ -36,6 +36,9 @@ static int     global_print = 0;
 static int64_t global_count = 0;
 static char*   global_buffer[11] = {0};
 static int     global_size = 5;
+static int     global_index = -1;
+static int     global_print_all = 0;
+
 
 void pw_process(int pw_length, int deny_flags,
                    int prev, int first, int feature_flags);
@@ -59,7 +62,7 @@ inline void process_digits(int pw_length,
 
     feature_flags &= ~PW_DIGITS;
     for(i = 0; digit[i]; ++i){
-        strcpy(global_buffer + pw_length, digit[i]);
+        strcpy(global_buffer + global_index, digit[i]);
         pw_process(pw_length + 1, next_deny_flags, DIGIT, 1, feature_flags);
     }
 
@@ -86,7 +89,7 @@ inline void process_vowels(int pw_length,
         next_deny_flags |= DIGIT;
 
     for(i = 0; vowel[i]; ++i){
-        strcpy(global_buffer + pw_length, vowel[i]);
+        strcpy(global_buffer + global_index, vowel[i]);
         pw_process(pw_length + 1, next_deny_flags, VOWEL, 0, feature_flags);
     }
 }
@@ -114,7 +117,7 @@ inline void process_vowels_upper(int pw_length,
 
     feature_flags &= ~PW_UPPERS;
     for(i = 0; vowel_upper[i]; ++i){
-        strcpy(global_buffer + pw_length, vowel_upper[i]);
+        strcpy(global_buffer + global_index, vowel_upper[i]);
         pw_process(pw_length + 1, next_deny_flags, VOWEL, 0, feature_flags);
     }
 }
@@ -139,7 +142,7 @@ inline void process_vowels_dipthong(int pw_length,
         next_deny_flags |= DIGIT;
 
     for(i = 0; vowel_dipthong[i]; ++i){
-        strcpy(global_buffer + pw_length, vowel_dipthong[i]);
+        strcpy(global_buffer + global_index, vowel_dipthong[i]);
         pw_process(pw_length + 2, next_deny_flags, VOWEL | DIPTHONG, 0, feature_flags);
     }
 }
@@ -167,7 +170,7 @@ inline void process_vowels_dipthong_upper(int pw_length,
 
     feature_flags &= ~PW_UPPERS;
     for(i = 0; vowel_dipthong_upper[i]; ++i){
-        strcpy(global_buffer + pw_length, vowel_dipthong_upper[i]);
+        strcpy(global_buffer + global_index, vowel_dipthong_upper[i]);
         pw_process(pw_length + 2, next_deny_flags, VOWEL | DIPTHONG, 0, feature_flags);
     }
 }
@@ -189,7 +192,7 @@ inline void process_consonants(int pw_length,
         next_deny_flags |= DIGIT;
 
     for(i = 0; consonant[i]; ++i){
-        strcpy(global_buffer + pw_length, consonant[i]);
+        strcpy(global_buffer + global_index, consonant[i]);
         pw_process(pw_length + 1, next_deny_flags, CONSONANT, 0, feature_flags);
     }
 }
@@ -212,7 +215,7 @@ inline void process_consonants_upper(int pw_length,
 
     feature_flags &= ~PW_UPPERS;
     for(i = 0; consonant_upper[i]; ++i){
-        strcpy(global_buffer + pw_length, consonant_upper[i]);
+        strcpy(global_buffer + global_index, consonant_upper[i]);
         pw_process(pw_length + 1, next_deny_flags, CONSONANT, 0, feature_flags);
     }
 }
@@ -231,7 +234,7 @@ inline void process_consonants_dipthong(int pw_length,
         return;
 
     for(i = 0; consonant_dipthong[i]; ++i){
-        strcpy(global_buffer + pw_length, consonant_dipthong[i]);
+        strcpy(global_buffer + global_index, consonant_dipthong[i]);
         pw_process(pw_length + 2, next_deny_flags, CONSONANT | DIPTHONG, 0, feature_flags);
     }
 }
@@ -251,7 +254,7 @@ inline void process_consonants_dipthong_upper(int pw_length,
 
     feature_flags &= ~PW_UPPERS;
     for(i = 0; consonant_dipthong_upper[i]; ++i){
-        strcpy(global_buffer + pw_length, consonant_dipthong_upper[i]);
+        strcpy(global_buffer + global_index, consonant_dipthong_upper[i]);
         pw_process(pw_length + 2, next_deny_flags, CONSONANT | DIPTHONG, 0, feature_flags);
     }
 }
@@ -270,7 +273,7 @@ inline void process_at_first_consonants_dipthong(int pw_length,
         return;
 
     for(i = 0; at_first_consonant_dipthong[i]; ++i){
-        strcpy(global_buffer + pw_length, at_first_consonant_dipthong[i]);
+        strcpy(global_buffer + global_index, at_first_consonant_dipthong[i]);
         pw_process(pw_length + 2, next_deny_flags, CONSONANT | DIPTHONG, 0, feature_flags);
     }
 }
@@ -290,7 +293,7 @@ inline void process_at_first_consonants_dipthong_upper(int pw_length,
 
     feature_flags &= ~PW_UPPERS;
     for(i = 0; at_first_consonant_dipthong_upper[i]; ++i){
-        strcpy(global_buffer + pw_length, at_first_consonant_dipthong_upper[i]);
+        strcpy(global_buffer + global_index, at_first_consonant_dipthong_upper[i]);
         pw_process(pw_length + 2, next_deny_flags, CONSONANT | DIPTHONG, 0, feature_flags);
     }
 }
@@ -329,6 +332,8 @@ void pw_process(int pw_length, int deny_flags, int prev, int first, int feature_
             deny_flags |= VOWEL | CONSONANT;
     }
 
+    global_index++;
+
     process_vowels(ALL_PARAM);
     process_vowels_upper(ALL_PARAM);
     process_vowels_dipthong(ALL_PARAM);
@@ -340,6 +345,8 @@ void pw_process(int pw_length, int deny_flags, int prev, int first, int feature_
     process_at_first_consonants_dipthong_upper(ALL_PARAM);
     process_at_first_consonants_dipthong(ALL_PARAM);
     process_digits(ALL_PARAM);
+
+    global_index--;
 
 }
 
@@ -353,12 +360,14 @@ void print_current_pwd(int a)
     global_print = 1;
 }
 
-
 int main(int argc, char *argv[])
 {
     global_print = 1;
-    if( argc == 2 )
+    if( argc >= 2 )
         global_size = atoi(argv[1]);
+
+    if( argc >= 3 )
+        global_print_all = 1;
 
     signal(SIGUSR1, print_current_pwd);
 
@@ -366,3 +375,4 @@ int main(int argc, char *argv[])
     fprintf(stderr, "%lld pwd generated\n", global_count);
     return 0;
 }
+
