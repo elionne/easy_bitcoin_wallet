@@ -357,7 +357,7 @@ void pw_process(int pw_length, int deny_flags, int prev, int first, int feature_
 
 void pw_phonemes(int pw_flags)
 {
-    pw_process(0, 0, 0, 0, pw_flags);
+    pw_process(0, 0, 0, 1, pw_flags);
 }
 
 void print_current_pwd(int a)
