@@ -66,10 +66,16 @@ void derive_password(const char* password,
     const EVP_MD *dgst;
     
     cipher = EVP_aes_256_cbc();
-    if(!cipher) { fprintf(stderr, "no such cipher\n"); abort(); }
+    if(!cipher) {
+      fprintf(stderr, "no such cipher\n");
+      abort();
+    }
 
-    dgst=EVP_get_digestbyname("sha512");
-    if(!dgst) { fprintf(stderr, "no such digest\n"); abort(); }
+    dgst = EVP_get_digestbyname("sha512");
+    if(!dgst) {
+      fprintf(stderr, "no such digest\n");
+      abort();
+    }
 
     if(!EVP_BytesToKey(cipher, dgst, salt,
         (unsigned char *) password,
