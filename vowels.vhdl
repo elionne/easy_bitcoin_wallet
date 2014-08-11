@@ -31,15 +31,16 @@ begin
             finished <= '0';
         end if;
 
-        length_out <= length_in + 1;
-        current_index <= index;
         if enable = '1' and reset = '0' then
             if current_vowel = vowels(vowels'right) then
                 finished <= '1';
             else
                 finished <= '0';
                 current_vowel <= vowels(index);
+                current_index <= index;
+
                 if index < vowel_index'high then
+                  length_out <= length_in + 1;
                   index := index + 1;
                 end if;
             end if;
